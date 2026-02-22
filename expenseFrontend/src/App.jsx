@@ -1,11 +1,16 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./Pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { Navigate } from "react-router";
 
 // 1. Define your routes
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Navigate to="/login" replace />, // This kills the 404
+  },
   {
     path: "/login",
     element: <Login />,
