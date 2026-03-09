@@ -1,6 +1,7 @@
 
-  import { useEffect, useState } from 'react'
-  import axios from 'axios'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+
 function Dashboard() {
 
   const [data, setData] = useState([])
@@ -21,19 +22,19 @@ function Dashboard() {
       <ul>
         {data.map((t) => (
           <li key={t.id || t._id}>
-            <strong>{t.title}</strong>: 
+            <strong>{t.title}</strong>:
             <span style={{ color: t.type === 'income' ? 'green' : 'red' }}>
-               {t.type === 'income' ? ' +' : ' -'}${t.amount}
-            </span> 
+              {t.type === 'income' ? ' +' : ' -'}${t.amount}
+            </span>
             ({t.date})
           </li>
         ))}
       </ul>
-     
+
     </div>
   )
 }
- 
+
 
 
 export default Dashboard
