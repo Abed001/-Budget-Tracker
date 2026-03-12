@@ -5,8 +5,6 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User'); // This links to your Day 11 User model
 
 router.post('/signup', async (req, res) => {
-    console.log('1. Signup route hit')
-    console.log('2. Request body:', req.body)
 
     try {
         const { email, password } = req.body;
@@ -21,21 +19,12 @@ router.post('/signup', async (req, res) => {
             console.log('6. User already exists')
             return res.status(400).json({ error: "User already exists" });
         }
-
         // Create new user
-        console.log('7. Creating new user...')
         const user = new User({ email, password });
-        console.log('8. User object created, about to save...')
-
         await user.save();
-        console.log('9. User saved successfully!')
 
         res.status(201).json({ message: "User created successfully!" });
     } catch (err) {
-        console.log('10. ERROR CAUGHT:')
-        console.log('Error name:', err.name)
-        console.log('Error message:', err.message)
-        console.log('Error stack:', err.stack)
         res.status(500).json({ error: err.message });
     }
 });
