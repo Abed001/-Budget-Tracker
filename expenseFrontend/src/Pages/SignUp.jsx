@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router';
+import { useNavigate, Link } from 'react-router-dom';
+
 const Signup = () => {
   const [formData, setFormData] = useState({
     email: '',

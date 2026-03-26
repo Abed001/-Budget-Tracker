@@ -1,12 +1,9 @@
-import { Navigate, Outlet } from "react-router";
+import { Navigate, Outlet } from "react-router-dom"; // 👈 Change this!
 
-// Make sure { isAuthenticated } is inside the brackets!
 const ProtectedRoute = ({ isAuthenticated }) => {
-  
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
-
   return <Outlet />;
 };
 
