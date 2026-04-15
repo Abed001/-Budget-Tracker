@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import EditModal from '../components/EditModal';
 
 
 // Import Jules components
@@ -18,6 +19,7 @@ function Dashboard() {
   const { user, setUser, isAuthenticated } = useAuth()
   const [transactions, setTransactions] = useState([])
   const [loading, setLoading] = useState(false);
+  const [editingTransaction, setEditingTransaction] = useState(null);
   const navigate = useNavigate();
 
   // Calculate metrics from real transaction data
@@ -40,13 +42,28 @@ function Dashboard() {
   const metrics = calculateMetrics();
 
   useEffect(() => {
-    // Fetch real transactions from your backend
-    axios.get('http://localhost:3001/api/transactions')
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.log('No token found, skipping fetch');
+      return;
+    }
+
+    axios.get('http://localhost:3001/api/transactions', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(response => {
-        console.log("Backend Data Received:", response.data)
-        setTransactions(response.data)
+        setTransactions(response.data);
       })
-      .catch(error => console.error("Bridge Error:", error))
+      .catch(error => {
+        if (error.response?.status === 401) {
+          console.log('Unauthorized - please login');
+        } else {
+          console.error("Bridge Error:", error);
+        }
+      });
   }, [])
 
   const logout = () => {
@@ -58,6 +75,26 @@ function Dashboard() {
     setTimeout(() => {
       navigate('/login');
     }, 2000);
+  };
+
+
+  const refreshTransactions = () => {
+    const token = localStorage.getItem('token');
+    axios.get('http://localhost:3001/api/transactions', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then(response => setTransactions(response.data))
+      .catch(error => console.error(error));
+  };
+
+  // 👈 Open edit modal
+  const handleEdit = (transaction) => {
+    setEditingTransaction(transaction);
+  };
+
+  // 👈 Close edit modal
+  const closeEditModal = () => {
+    setEditingTransaction(null);
   };
 
   // Pass real data to Jules components
@@ -79,14 +116,22 @@ function Dashboard() {
           <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <FinancialChart transactions={transactions} />
             <TransactionForm onTransactionAdded={() => {
-              // Refresh transactions after adding new one
-              axios.get('http://localhost:3001/api/transactions')
-                .then(response => setTransactions(response.data));
+              const token = localStorage.getItem('token');
+
+              axios.get('http://localhost:3001/api/transactions', {
+                headers: {
+                  'Authorization': `Bearer ${token}`
+                }
+              })
+                .then(response => setTransactions(response.data))
+                .catch(error => console.error("Error fetching:", error));
             }} />
           </section>
 
           <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20 md:mb-0">
-            <RecentLedgerList transactions={transactions} />
+            <RecentLedgerList transactions={transactions}
+              onTransactionDeleted={refreshTransactions}
+              onEdit={handleEdit} />
             <AllocationDonut
               income={metrics.monthlyIncome}
               expenses={metrics.monthlyExpenses}
@@ -119,6 +164,14 @@ function Dashboard() {
       </nav>
 
       <ToastContainer position="top-right" hideProgressBar={true} autoClose={2000} />
+      {/* 👈 Edit Modal */}
+      {editingTransaction && (
+        <EditModal
+          transaction={editingTransaction}
+          onClose={closeEditModal}
+          onUpdated={refreshTransactions}
+        />
+      )}
     </div>
   )
 }

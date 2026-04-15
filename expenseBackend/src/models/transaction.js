@@ -31,6 +31,11 @@ mongoose.set('strictQuery', false)
 mongoose.connect(url, { family: 4 })
 
 const transactionSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: [true, 'Title is required'],
+    trim: true
+  },
   amount: {
     type: Number,
     required: [true, 'Amount is required'],

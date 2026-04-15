@@ -6,7 +6,7 @@ const TransactionForm = ({ onTransactionAdded }) => {
     const [formData, setFormData] = useState({
         title: '',
         amount: '',
-        type: 'expense',
+        type: '',
         category: 'general',
         date: new Date().toISOString().split('T')[0]
     });
@@ -16,10 +16,22 @@ const TransactionForm = ({ onTransactionAdded }) => {
         e.preventDefault();
         setSubmitting(true);
 
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            toast.error("Please login first");
+            setSubmitting(false);
+            return;
+        }
+
         try {
             const response = await axios.post('http://localhost:3001/api/transactions', {
                 ...formData,
                 amount: parseFloat(formData.amount)
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
 
             toast.success("Transaction added successfully!");
@@ -27,7 +39,7 @@ const TransactionForm = ({ onTransactionAdded }) => {
                 title: '',
                 amount: '',
                 type: 'expense',
-                category: 'general',
+                categoryId: 'general',
                 date: new Date().toISOString().split('T')[0]
             });
 

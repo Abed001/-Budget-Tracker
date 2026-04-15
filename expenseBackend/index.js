@@ -46,20 +46,6 @@ app.get('/test', (req, res) => {
     res.json({ message: 'Server is working' })
 })
 
-// ALL YOUR OTHER ROUTES HERE
-app.get('/api/transactions', authMiddleware, (request, response) => {
-    Transaction.find({}).then(records => {
-        response.json(records)
-    })
-})
-
-app.get('/api/balance', (request, response) => {
-    Transaction.find({}).then(transactions => {
-        const income = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0)
-        const expense = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0)
-        return response.json({ income, expense, balance: income - expense })
-    })
-})
 
 // ========== TRANSACTION ROUTES ==========
 
@@ -117,6 +103,8 @@ app.get('/api/transactions/:id', authMiddleware, async (req, res) => {
 app.post('/api/transactions', authMiddleware, async (req, res) => {
     try {
         const { title, amount, type, date, categoryId, note } = req.body;
+        console.log('Received from frontend:', { title, amount, type, date, categoryId, note });
+
 
         // Validate required fields
         if (!title || !amount || !type) {
