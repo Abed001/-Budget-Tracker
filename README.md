@@ -1,33 +1,39 @@
 # 💰 Fullstack Budget Tracker
 
-A MERN stack application for real-time expense tracking and financial management.
+A full-stack expense tracking app built with the MERN stack.  
+Track your income and expenses, visualize your spending habits, and take control of your finances.
+
+## 🧩 Problem
+Most people have no clear picture of where their money goes.  
+Spreadsheets are tedious, banking apps don't categorize well, and most budget tools are overkill.  
+This app gives you a clean, fast way to log and understand your finances.
+
+## 💡 Why It Matters
+Small daily expenses add up silently.  
+Visibility creates accountability — and accountability changes behavior.
 
 ## 🛠 Tech Stack
-- **Frontend:** React, Axios
+- **Frontend:** React, Vite, Axios
 - **Backend:** Node.js, Express, Mongoose
 - **Database:** MongoDB Atlas
 - **Logging:** Morgan
+- **Auth:** JWT + bcrypt
 
-## 🚀 Installation & Setup
+## ✅ Features (MVP)
+- User authentication (register/login)
+- Add, view, and delete transactions
+- Income vs expense categorization
+- Real-time balance calculation
+- Dashboard with spending overview
+- Filter transactions by type/date
 
-1. **Clone the repository**
-2. **Backend Setup:**
-   - `cd backend`
-   - `npm install`
-   - Create a `.env` file with `MONGODB_URI=your_connection_string`
-   - `npm start`
-3. **Frontend Setup:**
-   - `cd frontend`
-   - `npm install`
-   - `npm run dev`
+## 📸 Screenshots
+<img width="1920" height="955" alt="Screenshot (60)" src="https://github.com/user-attachments/assets/3106a450-9f78-42bf-bfef-6bc37da15dcc" />
+<img width="1920" height="953" alt="Screenshot (59)" src="https://github.com/user-attachments/assets/192bbe27-6223-48d7-96de-da76242af113" />
+
 
 ## 🛣 API Endpoints
-- `GET /api/transactions` - List all records
-- `GET /api/balance` - Get totals (Income/Expense/Balance)
-- `POST /api/transactions` - Create new record
-- `DELETE /api/transactions/:id` - Delete record
-
-## 📝 Features
-- Automated balance calculations on the backend.
-- Persistent storage with MongoDB.
-- Middleware for request logging and JSON parsing.
+- `GET /api/transactions` — List all records
+- `GET /api/balance` — Get totals (Income / Expense / Balance)
+- `POST /api/transactions` — Create new record
+- `DELETE /api/transactions/:id` — Delete record
