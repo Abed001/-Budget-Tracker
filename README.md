@@ -36,4 +36,50 @@ Visibility creates accountability — and accountability changes behavior.
 - `GET /api/transactions` — List all records
 - `GET /api/balance` — Get totals (Income / Expense / Balance)
 - `POST /api/transactions` — Create new record
+
+## ⚙️ Local Setup
+
+1. Clone the repo
+   git clone https://github.com/yourusername/budget-tracker.git
+
+2. Backend
+   cd backend
+   npm install
+   npm run dev
+
+3. Frontend
+   cd frontend
+   npm install
+   npm run dev
+
+## 🔐 Environment Variables
+
+Create a `.env` file in `/backend`:
+
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+PORT=5000
+
+## 📜 NPM Scripts
+
+| Command | Description |
+|--------|-------------|
+| `npm run dev` | Start dev server |
+| `npm run build` | Build for production |
+| `npm test` | Run tests |
+| `npm run lint` | Run ESLint |
+
+## 📁 Folder Structure
+
+budget-tracker/
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   └── App.jsx
+├── backend/
+│   ├── routes/
+│   ├── models/
+│   ├── middleware/
+│   └── server.js
 - `DELETE /api/transactions/:id` — Delete record
