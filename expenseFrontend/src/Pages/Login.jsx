@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
-import { TailSpin } from 'react-loader-spinner'
+import { TailSpin } from 'react-loader-spinner';
 
 const Login = ({ onLoginSuccess }) => {
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password: '',
   });
 
   const { setUser } = useAuth();
@@ -17,7 +17,7 @@ const Login = ({ onLoginSuccess }) => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -29,7 +29,7 @@ const Login = ({ onLoginSuccess }) => {
       const res = await fetch('http://localhost:3001/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       const data = await res.json();
@@ -47,11 +47,10 @@ const Login = ({ onLoginSuccess }) => {
 
         setUser(data.user);
 
-        toast("✅ Login successful! Redirecting...");
+        toast('✅ Login successful! Redirecting...');
 
         // 🔑 KEY DIFFERENCE 2: Update app state
         if (onLoginSuccess) {
-
           onLoginSuccess();
         }
 
@@ -59,16 +58,15 @@ const Login = ({ onLoginSuccess }) => {
         setTimeout(() => {
           navigate('/app');
         }, 1500);
-
       } else {
         // 🔑 KEY DIFFERENCE 4: Different error message
         toast.error(`❌ ${data.error || 'Invalid email or password'}`, {
-          hideProgressBar: true
+          hideProgressBar: true,
         });
       }
     } catch (err) {
       toast.error('❌ Error connecting to server', {
-        hideProgressBar: true
+        hideProgressBar: true,
       });
     } finally {
       setLoading(false);
@@ -112,25 +110,30 @@ const Login = ({ onLoginSuccess }) => {
             backgroundColor: loading ? '#ccc' : '#007bff',
             color: 'white',
             border: 'none',
-            cursor: loading ? 'not-allowed' : 'pointer'
+            cursor: loading ? 'not-allowed' : 'pointer',
           }}
-
         >
-          {loading ? (<>
-            <TailSpin
-              height={20}        // Smaller for button
-              width={20}         // Smaller for button
-              color="#ffffff"    // White for dark button
-              visible={true}
-              ariaLabel='oval-loading'
-              strokeWidth={4}
-            />
-            Logging in...
-          </>
+          {loading ? (
+            <>
+              <TailSpin
+                height={20} // Smaller for button
+                width={20} // Smaller for button
+                color="#ffffff" // White for dark button
+                visible={true}
+                ariaLabel="oval-loading"
+                strokeWidth={4}
+              />
+              Logging in...
+            </>
           ) : (
-            'Login')}
+            'Login'
+          )}
         </button>
-        <ToastContainer position="right-top" hideProgressBar={true} autoClose={2000} />
+        <ToastContainer
+          position="right-top"
+          hideProgressBar={true}
+          autoClose={2000}
+        />
 
         <p style={{ marginTop: '15px', textAlign: 'center' }}>
           Don't have an account? <Link to="/signup">Sign up</Link>

@@ -1,13 +1,15 @@
 {
-  "dependencies": {
-    "bcryptjs": "^3.0.3",
-    "cors": "^2.8.6",
-    "dotenv": "^17.3.1",
-    "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3",
-    "mongodb": "^7.1.0",
-    "mongoose": "^9.2.1",
-    "morgan": "^1.10.1",
-    "react-router-dom": "^7.13.1"
+  "name": "expense-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev:client": "cd expenseFrontend && npm run dev",
+    "dev:server": "cd expenseBackend && npm run dev",
+    "dev:all": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "lint": "npm run lint --workspaces",
+    "format": "npm run format --workspaces"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }

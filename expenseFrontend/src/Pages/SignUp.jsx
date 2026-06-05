@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 const Signup = () => {
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password: '',
   });
 
   const [message, setMessage] = useState('');
@@ -13,7 +13,7 @@ const Signup = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -24,7 +24,7 @@ const Signup = () => {
       const res = await fetch('http://localhost:3001/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       const data = await res.json();
@@ -34,9 +34,8 @@ const Signup = () => {
         setFormData({ email: '', password: '' });
         // Redirect to login after 2 seconds
         setTimeout(() => {
-          navigate('/login');  // This redirects without page refresh
+          navigate('/login'); // This redirects without page refresh
         }, 2000);
-
       } else {
         setMessage(`❌ ${data.error}`);
       }
@@ -79,19 +78,21 @@ const Signup = () => {
             backgroundColor: '#007bff',
             color: 'white',
             border: 'none',
-            cursor: 'pointer'
+            cursor: 'pointer',
           }}
         >
           Sign Up
         </button>
         {message && (
-          <div style={{
-            marginTop: '15px',
-            padding: '10px',
-            backgroundColor: message.includes('✅') ? '#d4edda' : '#f8d7da',
-            color: message.includes('✅') ? '#155724' : '#721c24',
-            borderRadius: '4px'
-          }}>
+          <div
+            style={{
+              marginTop: '15px',
+              padding: '10px',
+              backgroundColor: message.includes('✅') ? '#d4edda' : '#f8d7da',
+              color: message.includes('✅') ? '#155724' : '#721c24',
+              borderRadius: '4px',
+            }}
+          >
             {message}
           </div>
         )}

@@ -1,9 +1,9 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
-import Login from "./Pages/Login";
-import Signup from "./Pages/SignUp"
-import Dashboard from "./Pages/Dashboard"
-import ProtectedRoute from "./components/ProtectedRoute"
+import Login from './Pages/Login';
+import Signup from './Pages/SignUp';
+import Dashboard from './Pages/Dashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(

@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import { useAuth } from '../context/AuthContext'
+import { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import EditModal from '../components/EditModal';
-
+import useTransactions from '../hooks/useTransactions';
+import useMetrics from '../hooks/useMetrics';
 
 // Import Jules components
-import Sidebar from '../components/Sidebar'
+import Sidebar from '../components/Sidebar';
 import TopBar from '../components/TopBar';
 import MetricsGrid from '../components/MetricsGrid';
 import FinancialChart from '../components/FinancialChart';
@@ -16,75 +16,20 @@ import RecentLedgerList from '../components/RecentLedgerList';
 import AllocationDonut from '../components/AllocationDonut';
 
 function Dashboard() {
-  const { user, setUser, isAuthenticated } = useAuth()
-  const [transactions, setTransactions] = useState([])
-  const [loading, setLoading] = useState(false);
+  const { user, setUser, isAuthenticated } = useAuth();
   const [editingTransaction, setEditingTransaction] = useState(null);
   const navigate = useNavigate();
-
-  // Calculate metrics from real transaction data
-  const calculateMetrics = () => {
-    const totalBalance = transactions.reduce((sum, t) => {
-      return t.type === 'income' ? sum + t.amount : sum - t.amount
-    }, 0);
-
-    const monthlyIncome = transactions
-      .filter(t => t.type === 'income')
-      .reduce((sum, t) => sum + t.amount, 0);
-
-    const monthlyExpenses = transactions
-      .filter(t => t.type === 'expense')
-      .reduce((sum, t) => sum + t.amount, 0);
-
-    return { totalBalance, monthlyIncome, monthlyExpenses };
-  };
-
-  const metrics = calculateMetrics();
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      console.log('No token found, skipping fetch');
-      return;
-    }
-
-    axios.get('http://localhost:3001/api/transactions', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-      .then(response => {
-        setTransactions(response.data);
-      })
-      .catch(error => {
-        if (error.response?.status === 401) {
-          console.log('Unauthorized - please login');
-        } else {
-          console.error("Bridge Error:", error);
-        }
-      });
-  }, [])
+  const { transactions, loading, refreshTransactions } = useTransactions();
+  const metrics = useMetrics(transactions);
 
   const logout = () => {
-    setLoading(true);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
-    toast("✅ Logging Out...");
+    toast('✅ Logging Out...');
     setTimeout(() => {
       navigate('/login');
     }, 2000);
-  };
-
-
-  const refreshTransactions = () => {
-    const token = localStorage.getItem('token');
-    axios.get('http://localhost:3001/api/transactions', {
-      headers: { 'Authorization': `Bearer ${token}` }
-    })
-      .then(response => setTransactions(response.data))
-      .catch(error => console.error(error));
   };
 
   // 👈 Open edit modal
@@ -115,23 +60,15 @@ function Dashboard() {
 
           <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <FinancialChart transactions={transactions} />
-            <TransactionForm onTransactionAdded={() => {
-              const token = localStorage.getItem('token');
-
-              axios.get('http://localhost:3001/api/transactions', {
-                headers: {
-                  'Authorization': `Bearer ${token}`
-                }
-              })
-                .then(response => setTransactions(response.data))
-                .catch(error => console.error("Error fetching:", error));
-            }} />
+            <TransactionForm onTransactionAdded={refreshTransactions} />
           </section>
 
           <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20 md:mb-0">
-            <RecentLedgerList transactions={transactions}
+            <RecentLedgerList
+              transactions={transactions}
               onTransactionDeleted={refreshTransactions}
-              onEdit={handleEdit} />
+              onEdit={handleEdit}
+            />
             <AllocationDonut
               income={metrics.monthlyIncome}
               expenses={metrics.monthlyExpenses}
@@ -163,7 +100,11 @@ function Dashboard() {
         </button>
       </nav>
 
-      <ToastContainer position="top-right" hideProgressBar={true} autoClose={2000} />
+      <ToastContainer
+        position="top-right"
+        hideProgressBar={true}
+        autoClose={2000}
+      />
       {/* 👈 Edit Modal */}
       {editingTransaction && (
         <EditModal
@@ -173,7 +114,7 @@ function Dashboard() {
         />
       )}
     </div>
-  )
+  );
 }
 
-export default Dashboard
+export default Dashboard;

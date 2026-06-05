@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom"; // 👈 Change this!
+import { Navigate, Outlet } from 'react-router-dom'; // 👈 Change this!
 
 const ProtectedRoute = ({ isAuthenticated }) => {
   if (!isAuthenticated) {
