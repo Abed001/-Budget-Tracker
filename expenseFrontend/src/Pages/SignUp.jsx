@@ -39,7 +39,7 @@ const Signup = () => {
       } else {
         setMessage(`❌ ${data.error}`);
       }
-    } catch (err) {
+    } catch (_err) {
       setMessage('❌ Error creating account');
     }
   };

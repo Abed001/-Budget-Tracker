@@ -16,7 +16,7 @@ import RecentLedgerList from '../components/RecentLedgerList';
 import AllocationDonut from '../components/AllocationDonut';
 
 function Dashboard() {
-  const { user, setUser, isAuthenticated } = useAuth();
+  const { user, setUser } = useAuth();
   const [editingTransaction, setEditingTransaction] = useState(null);
   const navigate = useNavigate();
   const { transactions, loading, refreshTransactions } = useTransactions();

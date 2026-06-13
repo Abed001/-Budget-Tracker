@@ -64,7 +64,7 @@ const Login = ({ onLoginSuccess }) => {
           hideProgressBar: true,
         });
       }
-    } catch (err) {
+    } catch (_err) {
       toast.error('❌ Error connecting to server', {
         hideProgressBar: true,
       });

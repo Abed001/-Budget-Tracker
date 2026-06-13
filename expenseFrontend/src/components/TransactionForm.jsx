@@ -25,7 +25,7 @@ const TransactionForm = ({ onTransactionAdded }) => {
     }
 
     try {
-      const response = await axios.post(
+      await axios.post(
         'http://localhost:3001/api/transactions',
         {
           ...formData,

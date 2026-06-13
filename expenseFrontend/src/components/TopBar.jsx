@@ -1,6 +1,6 @@
 import { TailSpin } from 'react-loader-spinner';
 
-const TopBar = ({ user, loading }) => {
+const TopBar = ({ user }) => {
   return (
     <header className="fixed top-0 right-0 left-0 lg:left-64 z-50 h-20 bg-[#0b1326]/80 backdrop-blur-xl flex justify-between items-center px-8 border-b border-outline-variant/5">
       <div className="flex items-center gap-4">
