@@ -7,9 +7,16 @@
     "dev:server": "cd expenseBackend && npm run dev",
     "dev:all": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "lint": "npm run lint --workspaces",
-    "format": "npm run format --workspaces"
+    "format": "npm run format --workspaces",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "expenseBackend/**/*.js": "npm run lint --prefix expenseBackend",
+    "expenseFrontend/**/*.{js,jsx}": "npm run lint --prefix expenseFrontend"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.7"
   }
 }
