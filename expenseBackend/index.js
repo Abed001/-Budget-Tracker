@@ -49,6 +49,14 @@ app.get('/api/dashboard', authMiddleware, (req, res) => {
     user: req.user,
   });
 });
+
+
+// health route to identify server health
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
+
 // Test route to verify server is working
 app.get('/test', (req, res) => {
   res.json({ message: 'Server is working' });

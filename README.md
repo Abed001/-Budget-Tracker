@@ -40,17 +40,21 @@ Visibility creates accountability — and accountability changes behavior.
 ## ⚙️ Local Setup
 
 1. Clone the repo
-   git clone https://github.com/yourusername/budget-tracker.git
+   git clone https://github.com/Abed001/-Budget-Tracker.git
 
-2. Backend
-   cd backend
+2. Install root dependencies
    npm install
-   npm run dev
 
-3. Frontend
-   cd frontend
+3. Backend
+   cd expenseBackend
    npm install
-   npm run dev
+
+4. Frontend
+   cd expenseFrontend
+   npm install
+
+5. Run both together from root
+   npm run dev:all
 
 ## 🔐 Environment Variables
 
