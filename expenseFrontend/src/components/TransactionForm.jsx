@@ -26,7 +26,7 @@ const TransactionForm = ({ onTransactionAdded }) => {
 
     try {
       await axios.post(
-        'http://localhost:3001/api/transactions',
+        '${import.meta.env.VITE_API_URL}/api/transactions',
         {
           ...formData,
           amount: parseFloat(formData.amount),

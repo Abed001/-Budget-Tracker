@@ -42,7 +42,7 @@ const EditModal = ({ transaction, onClose, onUpdated }) => {
 
     try {
       await axios.put(
-        `http://localhost:3001/api/transactions/${transaction.id}`,
+        `${import.meta.env.VITE_API_URL}/api/transactions/${transaction.id}`,
         {
           title: formData.title,
           amount: parseFloat(formData.amount),

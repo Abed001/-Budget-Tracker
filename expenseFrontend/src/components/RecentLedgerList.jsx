@@ -29,7 +29,7 @@ const RecentLedgerList = ({
     try {
       const token = localStorage.getItem('token');
       await axios.delete(
-        `http://localhost:3001/api/transactions/${transactionId}`,
+        `${import.meta.env.VITE_API_URL}/api/transactions/${transactionId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

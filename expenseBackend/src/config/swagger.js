@@ -8,7 +8,7 @@ const options = {
             version: '1.0.0',
             description: 'API documentation for the Budget Tracker app',
         },
-        servers: [{ url: 'http://localhost:3001' }],
+        servers: [{ url: '${import.meta.env.VITE_API_URL}' }],
     },
     apis: ['./src/routes/*.js'],
 };
