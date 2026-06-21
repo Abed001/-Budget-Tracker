@@ -9,7 +9,13 @@ const PORT = 3001;
 
 // IMPORTANT: Order matters - put these FIRST
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://budget-tracker-six-liart.vercel.app'
+  ],
+  credentials: true
+}));
 
 // Connect to MongoDB
 const url = process.env.MONGODB_URI;
